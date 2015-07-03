@@ -1,0 +1,7 @@
+*.properties
+build.xml
+*.iml
+/.idea
+/bin
+/gen
+proguard-project.txt
