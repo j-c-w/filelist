@@ -1,14 +1,18 @@
 package com.jcw.fileList;
 
 import java.io.File;
+import java.io.IOError;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by Jackson on 7/3/2015.
  */
 public class FileList <T> {
 	List<FileListItem<T>> fileItems;
+	File storageDir;
 
 	int current;
 
@@ -17,10 +21,17 @@ public class FileList <T> {
 	 */
 	int bufferSize = 3;
 
-	public FileList() {
-		fileItems = new ArrayList<FileListItem<T>>();
-
+	public FileList(File storageDir) {
+		this.fileItems = new ArrayList<FileListItem<T>>();
+		this.storageDir = storageDir;
 		current = -1;
+
+		if (!storageDir.exists()) {
+			if (!storageDir.mkdirs()) {
+				throw new IOError(
+						new IOException("Storage folder " + storageDir + " did not exist and could not be created."));
+			}
+		}
 	}
 
 	public void setCurrent(int number) {
@@ -107,6 +118,8 @@ public class FileList <T> {
 	 * Adds an item to the end of the list.
 	 */
 	public void add(FileListItem<T> item) {
+		item.setSaveFile(getNewSaveFile());
+
 		fileItems.add(item);
 
 		if (current == -1) {
@@ -123,9 +136,19 @@ public class FileList <T> {
 	}
 
 	public void add(int location, FileListItem<T> item) {
+		item.setSaveFile(getNewSaveFile());
+
 		fileItems.add(location, item);
 
 		recycleOld();
 		loadBuffer();
+	}
+
+	private File getNewSaveFile() {
+		return new File(storageDir + "/" + getFileName());
+	}
+	
+	private static String getFileName() {
+		return UUID.randomUUID().toString();
 	}
 }
