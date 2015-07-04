@@ -160,7 +160,14 @@ public class FileList <T> {
 	}
 
 	private File getNewSaveFile() {
-		return new File(storageDir + "/" + getFileName());
+		File saveFile = new File(storageDir + "/" + getFileName());
+		try {
+			saveFile.createNewFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return saveFile;
 	}
 
 	private static String getFileName() {
