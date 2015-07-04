@@ -104,6 +104,10 @@ public abstract class FileListItem <T> {
 		this.savePoint = saveFile;
 	}
 
+	protected File getSaveFile() {
+		return savePoint;
+	}
+
 	/*
 	 * This takes T out of memory by writing it to the
 	 * disk.

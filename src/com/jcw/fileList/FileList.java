@@ -144,10 +144,25 @@ public class FileList <T> {
 		loadBuffer();
 	}
 
+	/*
+	 * This method cleans out the storage directory used by deleting all the files
+	 * that were associated with this list.
+	 *
+	 * NOTE -- DON'T CALL THIS IF YOU PLAN TO CONTINUE TO USE THE LIST
+	 *
+	 * A large portion of the data stored in the list will be lost
+	 * if you try that
+	 */
+	public void clear() {
+		for (FileListItem<T> item : fileItems) {
+			item.getSaveFile().delete();
+		}
+	}
+
 	private File getNewSaveFile() {
 		return new File(storageDir + "/" + getFileName());
 	}
-	
+
 	private static String getFileName() {
 		return UUID.randomUUID().toString();
 	}
