@@ -59,6 +59,30 @@ public abstract class FileListItem <T> {
 	}
 
 	/*
+	 * This directly returns the item.
+	 *
+	 * However, this will only return the item if it is already loaded.
+	 * Use isLoaded() to check this.
+	 *
+	 * Will return null otherwise
+	 */
+	public T getOrNull() {
+		if (loaded) {
+			return item;
+		} else {
+			return null;
+		}
+	}
+
+	public boolean isLoaded() {
+		return loaded;
+	}
+
+	public boolean isRecycled() {
+		return !isLoaded();
+	}
+
+	/*
 	 * This returns the requested item in the callback
 	 */
 	public void get(OnLoadCompleted<T> callback) {
