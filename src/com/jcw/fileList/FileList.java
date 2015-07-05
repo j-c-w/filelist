@@ -34,6 +34,10 @@ public class FileList <T> {
 		}
 	}
 
+	public int size() {
+		return fileItems.size();
+	}
+
 	public void setCurrent(int number) {
 		if (number < 0)
 		current = number;
