@@ -135,6 +135,10 @@ public class FileList <T> {
 		return current == -1;
 	}
 
+	public int getCurrent() {
+		return current;
+	}
+
 	/*
 	 * This goes through and recycles all the old items in the list.
 	 * (i.e. the ones not covered by the buffer.
