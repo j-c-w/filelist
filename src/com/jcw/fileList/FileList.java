@@ -107,6 +107,14 @@ public class FileList <T> {
 			current -= 1;
 		}
 
+		// This is to deal with the situations where current is pointing to the first element,
+		// and pointing to the element before the first one is not a good idea.
+		if (size() == 0) {
+			current = -1;
+		} else if (current < 0) {
+			current = 0;
+		}
+
 		recycleOld();
 		loadBuffer();
 	}
