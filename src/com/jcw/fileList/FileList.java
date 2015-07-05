@@ -128,7 +128,7 @@ public class FileList <T> {
 	}
 
 	public boolean isOnLast() {
-		return current == fileItems.size();
+		return current == fileItems.size() - 1;
 	}
 
 	public boolean isEmpty() {
