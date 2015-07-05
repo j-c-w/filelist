@@ -22,6 +22,9 @@ public class BitmapListItem extends FileListItem<Bitmap> {
 
 	@Override
 	public void write(Bitmap item, File destination) {
+		if (item == null)
+			return;
+
 		try {
 			FileOutputStream fOut = new FileOutputStream(destination);
 
