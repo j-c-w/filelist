@@ -57,6 +57,13 @@ public class FileList <T> {
 		fileItems.get(current).get(onLoadCompleted);
 	}
 
+	/*
+	 * This replaces the current value with the value provided
+	 */
+	public void update(T newItem) {
+		fileItems.get(current).set(newItem);
+	}
+
 	public void setBufferSize(int size) {
 		this.bufferSize = size;
 	}
@@ -72,10 +79,10 @@ public class FileList <T> {
 	}
 
 	public void next() {
-		if (current < (fileItems.size() - 1)) {
-			current ++;
-		} else {
+		if (isOnLast()) {
 			throw new Error("Already at last item in list");
+		} else {
+			current ++;
 		}
 
 		recycleOld();
@@ -83,7 +90,7 @@ public class FileList <T> {
 	}
 
 	public void prev() {
-		if (current <= 0) {
+		if (isOnFirst()) {
 			throw new Error("Already at first item");
 		} else {
 			current --;
@@ -91,6 +98,33 @@ public class FileList <T> {
 
 		recycleOld();
 		loadBuffer();
+	}
+
+	public void remove(int index) {
+		fileItems.remove(index);
+
+		if (current <= index) {
+			current -= 1;
+		}
+
+		recycleOld();
+		loadBuffer();
+	}
+
+	public void removeCurrent() {
+		remove(current);
+	}
+
+	public boolean isOnFirst() {
+		return current <= 0;
+	}
+
+	public boolean isOnLast() {
+		return current == fileItems.size();
+	}
+
+	public boolean isEmpty() {
+		return current == -1;
 	}
 
 	/*
@@ -116,6 +150,13 @@ public class FileList <T> {
 				buffer(i);
 			}
 		}
+	}
+
+	/*
+	 * Adds an item at the curren position
+	 */
+	public void insertCurrent(FileListItem<T> item) {
+		add(current, item);
 	}
 
 	/*
