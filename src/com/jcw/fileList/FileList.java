@@ -165,10 +165,23 @@ public class FileList <T> {
 	}
 
 	/*
-	 * Adds an item at the curren position
+	 * Adds an item at the current position
 	 */
-	public void insertCurrent(FileListItem<T> item) {
+	public void insertBeforeCurrent(FileListItem<T> item) {
 		add(current, item);
+	}
+
+	/*
+	 * Adds an item after the current item
+	 */
+	public void insertAfterCurrent(FileListItem<T> item) {
+		if (current == size() - 1) {
+			// We are at the end of the list, so add normally
+			add(item);
+		} else {
+			// Not at the end of the list,
+			add(current + 1, item);
+		}
 	}
 
 	/*
