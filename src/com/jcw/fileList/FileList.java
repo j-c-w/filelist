@@ -40,7 +40,12 @@ public class FileList <T> {
 
 	public void setCurrent(int number) {
 		if (number < 0)
+			throw new IllegalArgumentException("Can't set current oa number < 0");
+
 		current = number;
+
+		recycleOld();
+		loadBuffer();
 	}
 
 	/*
@@ -140,6 +145,20 @@ public class FileList <T> {
 	}
 
 	/*
+	 * This recycles all the elements that are loaded in the list,
+	 * ensuring that all the files on the disk are up to date.
+	 *
+	 * This should not be called if you intend to load items from the
+	 * list further, as it will flush everything out of memory, so
+	 * it will all have to be reloaded again.
+	 */
+	public void recycleAll() {
+		for (int i = 0; i < fileItems.size(); i ++) {
+			recycle(i);
+		}
+	}
+
+	/*
 	 * This goes through and recycles all the old items in the list.
 	 * (i.e. the ones not covered by the buffer.
 	 */
@@ -162,6 +181,16 @@ public class FileList <T> {
 				buffer(i);
 			}
 		}
+	}
+
+	public File[] getAllFiles() {
+		File[] files = new File[fileItems.size()];
+
+		for (int i = 0; i < files.length; i ++) {
+			files[i] = fileItems.get(i).getSaveFile();
+		}
+
+		return files;
 	}
 
 	/*
