@@ -15,4 +15,18 @@ public class BitmapList extends FileList<Bitmap> {
 	public BitmapList(File storageDir) {
 		super(storageDir);
 	}
+
+	public BitmapList(File storageDir, Bitmap[] items) {
+		super(storageDir, wrapItems(items));
+	}
+
+	private static BitmapListItem[] wrapItems(Bitmap[] items) {
+		BitmapListItem[] newItems = new BitmapListItem[items.length];
+
+		for (int i = 0; i < items.length; i ++) {
+			newItems[i] = new BitmapListItem(items[i]);
+		}
+
+		return newItems;
+	}
 }
