@@ -34,6 +34,25 @@ public class FileList <T> {
 		}
 	}
 
+	public FileList(File storageDir, FileListItem<T>[] initItems) {
+		this.fileItems = new ArrayList<FileListItem<T>>();
+		this.storageDir = storageDir;
+		current = -1;
+
+		if (!storageDir.exists()) {
+			if (!storageDir.mkdirs()) {
+				throw new IOError(
+						new IOException("Storage folder " + storageDir + " did not exist and could not be created."));
+			}
+		}
+
+		for (FileListItem<T> item : initItems) {
+			item.setSaveFile(getNewSaveFile());
+
+			this.add(item);
+		}
+	}
+
 	public int size() {
 		return fileItems.size();
 	}
